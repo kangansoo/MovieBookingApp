@@ -1,13 +1,21 @@
 package com.kosa.view;
 
-import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
-import javax.swing.*;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -74,10 +82,15 @@ public class ReservationForm extends JFrame {
                 String selectedTheater = (String) theaterComboBox.getSelectedItem();
                 String selectedTime = (String) timeComboBox.getSelectedItem();
                 Date selectedDate = (Date) datePicker.getModel().getValue();
-                // 이 정보들을 이용하여 다음 단계를 처리할 수 있습니다.
+                
+                SeatSelectionPage seatSelectionPage = new SeatSelectionPage(selectedMovie, selectedTheater, selectedTime, selectedDate);
+                seatSelectionPage.setVisible(true);
+                dispose();
             }
         });
         mainPanel.add(nextButton);
+
+        getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         // 이미지를 표시할 패널 추가
         JPanel imagePanel = new JPanel(new BorderLayout());
@@ -88,8 +101,6 @@ public class ReservationForm extends JFrame {
             imagePanel.add(imageLabel, BorderLayout.CENTER);
         }
         mainPanel.add(imagePanel, BorderLayout.EAST); // 오른쪽에 추가
-
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
     }
 
     // 이미지를 로드하는 메서드
@@ -109,6 +120,6 @@ public class ReservationForm extends JFrame {
             ReservationForm form = new ReservationForm();
             form.setVisible(true);
         });
+        
     }
 }
-

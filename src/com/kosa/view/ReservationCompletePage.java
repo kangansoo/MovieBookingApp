@@ -1,18 +1,41 @@
 package com.kosa.view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 public class ReservationCompletePage extends JFrame {
-    private JPanel reservationPanel;
+    private static JPanel reservationPanel;
+    static private int numOfPeople;
+    static private String movieTitle;
+    static private String theater;
+    static private String time;
+    static private Date date;
+    static private ArrayList<String> selectedSeats;
 
-    public ReservationCompletePage() {
+    public ReservationCompletePage(String movieTitle, String theater, Date date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
         setTitle("예매 완료");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 300); // 프레임 크기 고정
         setResizable(false); // 크기 수정 불가능하도록 설정
         setLocationRelativeTo(null);
+        
+        this.movieTitle = movieTitle;
+        this.theater = theater;
+        this.time = time;
+        this.date = date;
+        this.numOfPeople = numOfPeople;
+        this.selectedSeats = selectedSeats;
 
         // 예매 내역을 담을 패널 생성
         reservationPanel = new JPanel();
@@ -26,11 +49,12 @@ public class ReservationCompletePage extends JFrame {
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         // 예매 내역 추가
-        addReservation("영화 제목1", "2024-04-30", "14:00", "상영관1", 2, new String[]{"A1", "A2"});
+        addReservation(movieTitle, date, time, theater, numOfPeople, selectedSeats);
     }
 
-    // 예매 내역을 추가하는 메소드
-    private void addReservation(String movieTitle, String date, String time, String theater, int numberOfPeople, String[] seats) {
+// 예매 내역을 추가하는 메소드
+    private void addReservation(String movieTitle, Date date, String time, String theater, int numOfPeople,
+    		ArrayList<String> selectedSeats) {
         JPanel reservationInfoPanel = new JPanel();
         reservationInfoPanel.setPreferredSize(new Dimension(300, 150)); // 예매 내역 패널 크기 설정
         reservationInfoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // 테두리 추가
@@ -40,8 +64,8 @@ public class ReservationCompletePage extends JFrame {
         JLabel dateLabel = new JLabel("상영 날짜: " + date);
         JLabel timeLabel = new JLabel("상영 시간: " + time);
         JLabel theaterLabel = new JLabel("상영관: " + theater);
-        JLabel numberOfPeopleLabel = new JLabel("인원: " + numberOfPeople);
-        JLabel seatsLabel = new JLabel("좌석: " + String.join(", ", seats));
+        JLabel numberOfPeopleLabel = new JLabel("인원: " + numOfPeople);
+        JLabel seatsLabel = new JLabel("좌석: " + String.join(", ", selectedSeats));
 
         // 패널에 정보 추가
         reservationInfoPanel.add(titleLabel);
@@ -61,7 +85,7 @@ public class ReservationCompletePage extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ReservationCompletePage reservationCompletePage = new ReservationCompletePage();
+            ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
             reservationCompletePage.setVisible(true);
         });
     }
