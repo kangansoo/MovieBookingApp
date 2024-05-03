@@ -2,7 +2,10 @@ package com.kosa.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SeatSelectionPage extends JFrame {
     private JLabel selectedSeatsLabel;
@@ -13,8 +16,17 @@ public class SeatSelectionPage extends JFrame {
     private ArrayList<String> selectedSeats;
     private int totalSeats;
     private int remainingSeats;
+    static private String movieTitle;
+    static private String theater;
+    static private String time;
+    static private Date date;
 
-    public SeatSelectionPage(String movieInfo) {
+    public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, Date selectedDate) {
+        movieTitle = selectedMovie;
+        theater = selectedTheater;
+        time = selectedTime;
+        date = selectedDate;
+
         setTitle("좌석 선택 페이지");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(550, 500); // 가로와 세로 크기 수정
@@ -82,16 +94,11 @@ public class SeatSelectionPage extends JFrame {
         mainPanel.add(selectedSeatsLabel);
 
         // 예매 영화 정보 표시
+        String movieInfo = "영화: " + movieTitle + ", 상영관: " + theater + ", 상영 날짜: " + date + ", 상영 시간: " + time;
         movieInfoLabel = new JLabel("<html>예매 영화 정보: <br>" + movieInfo + "</html>");
         movieInfoLabel.setVerticalAlignment(SwingConstants.TOP);
         movieInfoLabel.setBounds(344, 66, 155, 175);
         mainPanel.add(movieInfoLabel);
-
-        // 전체 좌석 수와 잔여 좌석 수 표시
-        JPanel seatInfoPanel = new JPanel();
-        seatInfoPanel.setBounds(0, 433, 786, 30);
-        seatInfoPanel.setLayout(null);
-        mainPanel.add(seatInfoPanel);
 
         getContentPane().add(mainPanel);
         availableSeatsLabel = new JLabel("잔여 좌석 수: " + remainingSeats);
@@ -104,6 +111,24 @@ public class SeatSelectionPage extends JFrame {
         JLabel lblNewLabel = new JLabel("좌석 선택");
         lblNewLabel.setBounds(35, 68, 77, 15);
         mainPanel.add(lblNewLabel);
+        
+        // 예매하기 버튼 추가
+        JButton reserveButton = new JButton("예매하기");
+        reserveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int option = JOptionPane.showConfirmDialog(SeatSelectionPage.this, "예매하시겠습니까?", "예매 확인", JOptionPane.OK_CANCEL_OPTION);
+                if (option == JOptionPane.OK_OPTION) {
+                    // 예매하기 버튼을 눌렀을 때의 동작 구현
+                    // 예매 정보는 movieInfo 변수에 저장된 데이터를 사용할 수 있습니다.
+                    ReservationCompletePage completePage = new ReservationCompletePage();
+                    completePage.setVisible(true);
+                    dispose(); // 현재 페이지 닫기
+                }
+            }
+        });
+        reserveButton.setBounds(223, 404, 97, 23);
+        mainPanel.add(reserveButton);
     }
 
     // 선택한 좌석 업데이트
@@ -123,13 +148,9 @@ public class SeatSelectionPage extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            // 이전 페이지에서 가져온 예매 영화 정보
-            String movieInfo = "영화: 겨울왕국 3D, 상영관: 1관, 상영 시간: 13:00";
-            SeatSelectionPage seatSelectionPage = new SeatSelectionPage(movieInfo);
+            SeatSelectionPage seatSelectionPage = new SeatSelectionPage(movieTitle, theater, time, date);
             seatSelectionPage.setVisible(true);
         });
     }
 }
-
-
 

@@ -45,6 +45,23 @@ public class MainPage extends JFrame {
         SwingUtilities.invokeLater(() -> {
             MainPage mainPage = new MainPage();
             mainPage.setVisible(true);
+
+            // '보고 싶은 영화 신청하기' 버튼에 ActionListener 추가
+            mainPage.applyButton.addActionListener(e -> {
+                ApplyMoviePage applyMoviePage = new ApplyMoviePage(); // ApplyMoviePage 인스턴스 생성
+                applyMoviePage.setVisible(true); // ApplyMoviePage를 보이도록 설정
+                mainPage.dispose(); // 현재 페이지를 닫음
+            });
+            mainPage.bookButton.addActionListener(e -> {
+            	ReservationForm reservationForm = new ReservationForm(); // ApplyMoviePage 인스턴스 생성
+            	reservationForm.setVisible(true); // ApplyMoviePage를 보이도록 설정
+                mainPage.dispose(); // 현재 페이지를 닫음
+            });
+            mainPage.viewButton.addActionListener(e -> {
+            	ReservationConfirmationPage reservationConfirmationPage = new ReservationConfirmationPage(); // ApplyMoviePage 인스턴스 생성
+            	reservationConfirmationPage.setVisible(true); // ApplyMoviePage를 보이도록 설정
+                mainPage.dispose(); // 현재 페이지를 닫음
+            });
         });
     }
 }
