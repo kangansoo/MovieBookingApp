@@ -21,7 +21,7 @@ public class ReservationCompletePage extends JFrame {
     static private String theater;
     static private String time;
     static private Date date;
-    static private ArrayList<String> selectedSeats;
+    static ArrayList<String> selectedSeats = new ArrayList<String>();
 
     public ReservationCompletePage(String movieTitle, String theater, Date date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
         setTitle("예매 완료");
@@ -52,9 +52,9 @@ public class ReservationCompletePage extends JFrame {
         addReservation(movieTitle, date, time, theater, numOfPeople, selectedSeats);
     }
 
-// 예매 내역을 추가하는 메소드
+    // 예매 내역을 추가하는 메소드
     private void addReservation(String movieTitle, Date date, String time, String theater, int numOfPeople,
-    		ArrayList<String> selectedSeats) {
+            ArrayList<String> selectedSeats) {
         JPanel reservationInfoPanel = new JPanel();
         reservationInfoPanel.setPreferredSize(new Dimension(300, 150)); // 예매 내역 패널 크기 설정
         reservationInfoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK)); // 테두리 추가
@@ -65,7 +65,17 @@ public class ReservationCompletePage extends JFrame {
         JLabel timeLabel = new JLabel("상영 시간: " + time);
         JLabel theaterLabel = new JLabel("상영관: " + theater);
         JLabel numberOfPeopleLabel = new JLabel("인원: " + numOfPeople);
-        JLabel seatsLabel = new JLabel("좌석: " + String.join(", ", selectedSeats));
+        
+        // 좌석 정보 추가
+        StringBuilder seatsInfo = new StringBuilder("좌석: ");
+        for (String seat : selectedSeats) {
+            seatsInfo.append(seat).append(", ");
+        }
+        // 마지막에 추가된 ", "를 제거합니다.
+        if (!selectedSeats.isEmpty()) {
+            seatsInfo.setLength(seatsInfo.length() - 2);
+        }
+        JLabel seatsLabel = new JLabel(seatsInfo.toString());
 
         // 패널에 정보 추가
         reservationInfoPanel.add(titleLabel);
@@ -90,5 +100,3 @@ public class ReservationCompletePage extends JFrame {
         });
     }
 }
-
-

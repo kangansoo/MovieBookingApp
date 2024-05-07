@@ -43,7 +43,7 @@ public class SeatSelectionPage extends JFrame {
         setSize(550, 500); // 가로와 세로 크기 수정
         setLocationRelativeTo(null);
 
-        selectedSeats = new ArrayList<>();
+        selectedSeats = new ArrayList<String>();
         totalSeats = 49; // 전체 좌석 수
         remainingSeats = totalSeats; // 잔여 좌석 수 초기화
 
@@ -79,14 +79,15 @@ public class SeatSelectionPage extends JFrame {
                     String[] seatName = clickedCheckBox.getName().split("-");
                     String seatNumber = seatName[0] + seatName[1];
                     if (clickedCheckBox.isSelected()) {
-                        selectedSeats.add(seatNumber);
+                        selectedSeats.add(seatNumber); // 선택된 좌석을 리스트에 추가
                         remainingSeats--; // 선택한 좌석 수만큼 잔여 좌석 수 감소
                     } else {
-                        selectedSeats.remove(seatNumber);
+                        selectedSeats.remove(seatNumber); // 선택 취소된 좌석을 리스트에서 제거
                         remainingSeats++; // 선택 취소한 좌석 수만큼 잔여 좌석 수 증가
                     }
                     updateSelectedSeatsLabel();
                     updateAvailableSeatsLabel();
+                    System.out.println(selectedSeats);
                 });
                 gridPanel.add(seatCheckBox);
             }
@@ -103,7 +104,7 @@ public class SeatSelectionPage extends JFrame {
         selectedSeatsLabel.setVerticalAlignment(SwingConstants.TOP);
         selectedSeatsLabel.setBounds(235, 68, 77, 228); // JLabel 크기 고정
         mainPanel.add(selectedSeatsLabel);
-        numOfPeople = (int)selectedSeats.size();
+        numOfPeople = selectedSeats.size();
 
         // 예매 영화 정보 표시
         String movieInfo = "영화: " + movieTitle + ", 상영관: " + theater + ", 상영 날짜: " + date + ", 상영 시간: " + time;
@@ -119,13 +120,13 @@ public class SeatSelectionPage extends JFrame {
         totalSeatsLabel = new JLabel("전체 좌석 수: " + totalSeats);
         totalSeatsLabel.setBounds(35, 324, 103, 15);
         mainPanel.add(totalSeatsLabel);
-        
+
         JLabel lblNewLabel = new JLabel("좌석 선택");
         lblNewLabel.setBounds(35, 68, 77, 15);
         mainPanel.add(lblNewLabel);
-        
+
         ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
-        
+
         // 예매하기 버튼 추가
         JButton reserveButton = new JButton("예매하기");
         reserveButton.addActionListener(new ActionListener() {
@@ -166,4 +167,3 @@ public class SeatSelectionPage extends JFrame {
         });
     }
 }
-
