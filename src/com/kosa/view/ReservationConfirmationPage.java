@@ -50,10 +50,16 @@ public class ReservationConfirmationPage extends JFrame {
 
         // 예매 내역 정보 추가
         JLabel titleLabel = new JLabel("영화 제목: " + movieTitle);
+        titleLabel.setBounds(23, 48, 219, 15);
         JLabel dateLabel = new JLabel("상영 날짜: " + date);
+        dateLabel.setBounds(282, 48, 154, 15);
         JLabel timeLabel = new JLabel("상영 시간: " + time);
+        timeLabel.setBounds(22, 76, 120, 15);
         JLabel theaterLabel = new JLabel("상영관: " + theater);
+        theaterLabel.setBounds(154, 76, 125, 15);
         JLabel seatsLabel = new JLabel("좌석: " + seats);
+        seatsLabel.setBounds(282, 76, 142, 15);
+        reservationInfoPanel.setLayout(null);
 
         // 패널에 정보 추가
         reservationInfoPanel.add(titleLabel);
