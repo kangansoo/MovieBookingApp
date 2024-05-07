@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kosa.member.vo.MemberVO;
 
+
 public interface MemberDAO {
 	// select
 	List<MemberVO> selectMember() throws SQLException;

@@ -48,8 +48,8 @@ public class MainPage extends JFrame {
 
             // '보고 싶은 영화 신청하기' 버튼에 ActionListener 추가
             mainPage.applyButton.addActionListener(e -> {
-                ApplyMoviePage applyMoviePage = new ApplyMoviePage(); // ApplyMoviePage 인스턴스 생성
-                applyMoviePage.setVisible(true); // ApplyMoviePage를 보이도록 설정
+                RequestMoviePage requestMoviePage = new RequestMoviePage(); // ApplyMoviePage 인스턴스 생성
+                requestMoviePage.setVisible(true); // ApplyMoviePage를 보이도록 설정
                 mainPage.dispose(); // 현재 페이지를 닫음
             });
             mainPage.bookButton.addActionListener(e -> {
