@@ -21,7 +21,7 @@ public class ReservationCompletePage extends JFrame {
     static private String theater;
     static private String time;
     static private Date date;
-    static ArrayList<String> selectedSeats = new ArrayList<String>();
+    static private ArrayList<String> selectedSeats = new ArrayList<String>();
 
     public ReservationCompletePage(String movieTitle, String theater, Date date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
         setTitle("예매 완료");

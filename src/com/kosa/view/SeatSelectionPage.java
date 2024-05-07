@@ -88,6 +88,7 @@ public class SeatSelectionPage extends JFrame {
                     updateSelectedSeatsLabel();
                     updateAvailableSeatsLabel();
                     System.out.println(selectedSeats);
+                    numOfPeople = selectedSeats.size();
                 });
                 gridPanel.add(seatCheckBox);
             }
@@ -104,7 +105,6 @@ public class SeatSelectionPage extends JFrame {
         selectedSeatsLabel.setVerticalAlignment(SwingConstants.TOP);
         selectedSeatsLabel.setBounds(235, 68, 77, 228); // JLabel 크기 고정
         mainPanel.add(selectedSeatsLabel);
-        numOfPeople = selectedSeats.size();
 
         // 예매 영화 정보 표시
         String movieInfo = "영화: " + movieTitle + ", 상영관: " + theater + ", 상영 날짜: " + date + ", 상영 시간: " + time;
@@ -125,7 +125,7 @@ public class SeatSelectionPage extends JFrame {
         lblNewLabel.setBounds(35, 68, 77, 15);
         mainPanel.add(lblNewLabel);
 
-        ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
+        
 
         // 예매하기 버튼 추가
         JButton reserveButton = new JButton("예매하기");
@@ -136,6 +136,7 @@ public class SeatSelectionPage extends JFrame {
                 if (option == JOptionPane.OK_OPTION) {
                     // 예매하기 버튼을 눌렀을 때의 동작 구현
                     // 예매 정보는 movieInfo 변수에 저장된 데이터를 사용할 수 있습니다.
+                	ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
                     reservationCompletePage.setVisible(true);
                     dispose(); // 현재 페이지 닫기
                 }
