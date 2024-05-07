@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import com.kosa.member.controller.MemberController;
 import com.kosa.member.controller.MemberControllerImpl;
+import com.kosa.member.vo.MemberVO;
 
 public class LoginForm extends JFrame {
    private JLabel usernameLabel;
@@ -83,9 +84,9 @@ public class LoginForm extends JFrame {
          String userid = usernameField.getText();
          String password = new String(passwordField.getPassword());
          try {
-            controller.login(userid, password);
+            MemberVO vo = controller.login(userid, password);
             LoginForm.this.dispose(); // 로그인 창 닫기
-            MainPage mainPage = new MainPage(); // 메인 페이지 생성
+            MainPage mainPage = new MainPage(vo); // 메인 페이지 생성
             mainPage.setVisible(true); // 메인 페이지 표시
          } catch (SQLException e1) {
             JOptionPane.showMessageDialog(LoginForm.this, "로그인 실패 \n" + e1.getMessage(), "로그인 에러",
