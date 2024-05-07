@@ -6,15 +6,23 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 
 public class MemberVO {
 
-	private int member_no;
-	private String member_name;
-	private String reg_no;
-	private String tel_no;
-	private String email;
-	private String id;
-	private String pwd;
+   private int memberNo;
+   private String memberName;
+   private String telNo;
+   private String email;
+   private String id;
+   private String pwd;
+
+   public MemberVO(String memberName, String telNo, String email, String id, String pwd) {
+      super();
+      this.memberName = memberName;
+      this.telNo = telNo;
+      this.email = email;
+      this.id = id;
+      this.pwd = pwd;
+   }
+
 }

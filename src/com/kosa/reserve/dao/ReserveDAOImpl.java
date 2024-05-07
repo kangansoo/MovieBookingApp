@@ -3,6 +3,8 @@ package com.kosa.reserve.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.kosa.reserve.vo.ReserveVO;
+
 public class ReserveDAOImpl implements ReserveDAO{
 
 	@Override
@@ -11,7 +13,7 @@ public class ReserveDAOImpl implements ReserveDAO{
 	}
 
 	@Override
-	public List<String> selectReservation(int memberNo) throws SQLException {
+	public List<ReserveVO> selectReservation(int memberNo) throws SQLException {
 		
 		return null;
 	}
