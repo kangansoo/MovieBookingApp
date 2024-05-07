@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.kosa.common.base.DBConnection;
+import com.kosa.member.vo.MemberVO;
 
 public class MemberDAOImpl implements MemberDAO {
 	private Connection conn;
