@@ -8,7 +8,7 @@ import com.kosa.member.vo.MemberVO;
 
 public interface MemberDAO {
    // select
-   List<MemberVO> selectMember() throws SQLException;
+   List<MemberVO> selectMember(MemberVO memberVO) throws SQLException;
 
    // insert
    void insertMember(MemberVO memberVO) throws SQLException;
@@ -20,7 +20,7 @@ public interface MemberDAO {
    void deleteMember() throws SQLException;
 
    // login
-   void findByMemberId(String id, String pwd) throws SQLException;
+   boolean findByMemberId(String id, String pwd) throws SQLException;
 
    // check_UserId_Duplicate
    int checkDuplicateUserId(String id) throws SQLException;

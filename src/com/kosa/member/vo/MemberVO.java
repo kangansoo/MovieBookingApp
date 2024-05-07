@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class MemberVO {
 
    private int memberNo;

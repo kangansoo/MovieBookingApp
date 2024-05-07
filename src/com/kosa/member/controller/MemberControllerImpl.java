@@ -14,8 +14,16 @@ public class MemberControllerImpl implements MemberController {
    }
 
    @Override
-   public void login(String id, String pwd) throws SQLException {
+   public MemberVO login(String id, String pwd) throws SQLException {
       memberDAO.findByMemberId(id, pwd);
+      MemberVO vo = new MemberVO();
+      vo.setId(id);
+      for(MemberVO target :  memberDAO.selectMember(vo)) {
+    	  if(id.equals(vo.getId())) {
+    		  return target;
+    	  }
+      }
+     return vo;
    }
 
    @Override
