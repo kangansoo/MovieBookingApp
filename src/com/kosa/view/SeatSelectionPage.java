@@ -1,12 +1,14 @@
 package com.kosa.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,6 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import com.kosa.seatselection.controller.SeatSelectionController;
+import com.kosa.seatselection.controller.SeatSelectionControllerImpl;
 
 public class SeatSelectionPage extends JFrame {
     private JLabel selectedSeatsLabel;
@@ -31,12 +36,15 @@ public class SeatSelectionPage extends JFrame {
     static private String theater;
     static private String time;
     static private String date;
+    private SeatSelectionController controller;
+    private List<String> unabledSeats;
 
     public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, String selectedDate) {
         movieTitle = selectedMovie;
         theater = selectedTheater;
         time = selectedTime;
         date = selectedDate;
+        controller = new SeatSelectionControllerImpl(); 
 
         setTitle("좌석 선택 페이지");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -125,8 +133,6 @@ public class SeatSelectionPage extends JFrame {
         lblNewLabel.setBounds(35, 68, 77, 15);
         mainPanel.add(lblNewLabel);
 
-        
-
         // 예매하기 버튼 추가
         JButton reserveButton = new JButton("예매하기");
         reserveButton.addActionListener(new ActionListener() {
@@ -136,7 +142,7 @@ public class SeatSelectionPage extends JFrame {
                 if (option == JOptionPane.OK_OPTION) {
                     // 예매하기 버튼을 눌렀을 때의 동작 구현
                     // 예매 정보는 movieInfo 변수에 저장된 데이터를 사용할 수 있습니다.
-                	ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
+                    ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
                     reservationCompletePage.setVisible(true);
                     dispose(); // 현재 페이지 닫기
                 }
@@ -144,6 +150,24 @@ public class SeatSelectionPage extends JFrame {
         });
         reserveButton.setBounds(223, 404, 97, 23);
         mainPanel.add(reserveButton);
+        
+        // 좌석 선택 페이지에 접속했을 때, selectedSeat 메서드 호출
+        try {
+        	unabledSeats = controller.selectedSeat(movieTitle, date, theater, time);
+        	System.out.println(unabledSeats);
+            // 가져온 좌석을 순회하며 해당 좌석을 비활성화 처리
+            for (String seat : selectedSeats) {
+                // 좌석의 문자와 숫자를 분리하여 행(row)과 열(column)로 저장
+                String[] seatInfo = seat.split(" ");
+                String row = seatInfo[0];
+                int column = Integer.parseInt(seatInfo[1]);
+
+                // 좌석을 비활성화 처리
+                disableSeat(row, column);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     // 선택한 좌석 업데이트
@@ -159,6 +183,22 @@ public class SeatSelectionPage extends JFrame {
     // 잔여 좌석 업데이트
     private void updateAvailableSeatsLabel() {
         availableSeatsLabel.setText("잔여 좌석 수: " + remainingSeats);
+    }
+
+    // 좌석을 비활성화 처리하는 메서드
+    private void disableSeat(String row, int column) {
+        // 좌석의 행과 열 정보를 사용하여 해당 좌석을 비활성화 처리
+        String seatName = row + "-" + column;
+        Component[] components = seatPanel.getComponents(); // seatPanel에서 모든 컴포넌트 가져오기
+        for (Component component : components) {
+            if (component instanceof JCheckBox) { // JCheckBox인 경우
+                JCheckBox checkBox = (JCheckBox) component;
+                if (checkBox.getName().equals(seatName)) { // 좌석 이름이 일치하는 경우
+                    checkBox.setEnabled(false); // 좌석을 비활성화 처리
+                    break; // 비활성화 처리 후 종료
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
