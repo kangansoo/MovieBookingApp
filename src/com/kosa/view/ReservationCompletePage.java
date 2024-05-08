@@ -20,10 +20,10 @@ public class ReservationCompletePage extends JFrame {
     static private String movieTitle;
     static private String theater;
     static private String time;
-    static private Date date;
+    static private String date;
     static private ArrayList<String> selectedSeats = new ArrayList<String>();
 
-    public ReservationCompletePage(String movieTitle, String theater, Date date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
+    public ReservationCompletePage(String movieTitle, String theater, String date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
         setTitle("예매 완료");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 300); // 프레임 크기 고정
@@ -53,7 +53,7 @@ public class ReservationCompletePage extends JFrame {
     }
 
     // 예매 내역을 추가하는 메소드
-    private void addReservation(String movieTitle, Date date, String time, String theater, int numOfPeople,
+    private void addReservation(String movieTitle, String date, String time, String theater, int numOfPeople,
             ArrayList<String> selectedSeats) {
         JPanel reservationInfoPanel = new JPanel();
         reservationInfoPanel.setPreferredSize(new Dimension(300, 150)); // 예매 내역 패널 크기 설정

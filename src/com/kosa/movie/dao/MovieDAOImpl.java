@@ -23,16 +23,12 @@ public class MovieDAOImpl implements MovieDAO {
 	}
 
 	@Override
-	public Map<String, List<String>> selectMovie(String selectedDate) throws SQLException {
-	    Map<String, List<String>> movieInfoMap = new HashMap<>();
+	public List<String> selectMovie(String selectedDate) throws SQLException {
 	    List<String> movieTitles = new ArrayList<>();
-	    List<String> screenNames = new ArrayList<>();
-	    List<String> scheduleTimes = new ArrayList<>();
-
 	    // 프로시저 호출 방식 수정
-	    String query = "{ call GET_MOVIE_SCREEN_SCHEDULE(?, ?) }"; // OUT 매개변수 설정
+	    String query = "{ call GET_MOVIES_BY_DATE(?, ?) }"; // OUT 매개변수 설정
 	    cstmt = conn.prepareCall(query);
-	    cstmt.setString(1, "2024-05-10"); // p_schedule_date
+	    cstmt.setString(1, selectedDate); // p_schedule_date
         cstmt.registerOutParameter(2, OracleTypes.CURSOR); 
 	    cstmt.execute(); // 프로시저 실행
 
@@ -40,31 +36,35 @@ public class MovieDAOImpl implements MovieDAO {
 	    rs = (ResultSet) cstmt.getObject(2);
 	    while (rs.next()) {
 	        String movieTitle = rs.getString(1);
-	        String screenName = rs.getString(2);
-	        String scheduleTime = rs.getString(3);
 	        
 	        // 각 결과 값을 각각의 리스트에 추가
 	        movieTitles.add(movieTitle);
-	        screenNames.add(screenName);
-	        scheduleTimes.add(scheduleTime);
 	    }
-
-	    // movieInfoMap에 각 리스트 추가
-	    movieInfoMap.put("movieTitles", movieTitles);
-	    movieInfoMap.put("screenNames", screenNames);
-	    movieInfoMap.put("scheduleTimes", scheduleTimes);
-
+	    cstmt.close();
 	    // movieInfoMap 반환
-	    return movieInfoMap;
+	    return movieTitles;
 	}
-	public static void main(String[] args) {
-		MovieDAOImpl movie = new MovieDAOImpl();
-		try {
-			System.out.println(movie.selectMovie("2024-05-10"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+	@Override
+	public List<String> selectScreenSchedule(String seletedDate, String movieTitle) throws SQLException {
+		List<String> screenSchedule = new ArrayList<>();
+		String query = "{ call GET_SCREEN_SCHEDULE_FOR_MOVIE(?, ?, ?) }"; // OUT 매개변수 설정
+	    cstmt = conn.prepareCall(query);
+	    cstmt.setString(1, seletedDate);
+	    cstmt.setString(2, movieTitle);
+        cstmt.registerOutParameter(3, OracleTypes.CURSOR); 
+	    cstmt.execute(); // 프로시저 실행
+		
+	    rs = (ResultSet) cstmt.getObject(3);
+	    while (rs.next()) {
+	    	String screenName = rs.getString("screen_name");
+	    	String scheduleTime = rs.getString("schedule_time");
+	        String screenScheduleInfo = screenName+" "+scheduleTime;
+	        // 각 결과 값을 각각의 리스트에 추가
+	        screenSchedule.add(screenScheduleInfo);
+	    }
+	    cstmt.close();
+		return screenSchedule;
 	}
 
 }
