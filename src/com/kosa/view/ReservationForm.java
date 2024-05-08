@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
@@ -70,24 +71,11 @@ public class ReservationForm extends JFrame {
         datePicker.setBounds(12, 152, 244, 30);
         mainPanel.add(dateLabel);
         mainPanel.add(datePicker);
+        datePicker.addActionListener(new DatePickerListener());
 
         nextButton = new JButton("다음");
         nextButton.setBounds(236, 456, 195, 47);
-        nextButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // '다음' 버튼 눌렀을 때의 동작 구현
-                // 선택된 영화, 상영관, 상영 시간, 날짜 정보를 가져올 수 있습니다.
-                String selectedMovie = (String) movieComboBox.getSelectedItem();
-                String selectedTheater = (String) theaterComboBox.getSelectedItem();
-                String selectedTime = (String) timeComboBox.getSelectedItem();
-                Date selectedDate = (Date) datePicker.getModel().getValue();
-                
-                SeatSelectionPage seatSelectionPage = new SeatSelectionPage(selectedMovie, selectedTheater, selectedTime, selectedDate);
-                seatSelectionPage.setVisible(true);
-                dispose();
-            }
-        });
+        nextButton.addActionListener(new NextButtonListener());
         mainPanel.add(nextButton);
 
         getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -112,6 +100,36 @@ public class ReservationForm extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // 날짜 선택에 대한 ActionListener 클래스
+    private class DatePickerListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // 선택한 날짜 가져오기
+            Date selectedDate = (Date) datePicker.getModel().getValue();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = dateFormat.format(selectedDate);
+            System.out.println("Selected Date (String): " + dateString);
+            
+        }
+    }
+
+    // '다음' 버튼 ActionListener 클래스
+    private class NextButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // '다음' 버튼 눌렀을 때의 동작 구현
+            // 선택된 영화, 상영관, 상영 시간, 날짜 정보를 가져올 수 있습니다.
+            String selectedMovie = (String) movieComboBox.getSelectedItem();
+            String selectedTheater = (String) theaterComboBox.getSelectedItem();
+            String selectedTime = (String) timeComboBox.getSelectedItem();
+            Date selectedDate = (Date) datePicker.getModel().getValue();
+
+            SeatSelectionPage seatSelectionPage = new SeatSelectionPage(selectedMovie, selectedTheater, selectedTime, selectedDate);
+            seatSelectionPage.setVisible(true);
+            dispose();
         }
     }
 
