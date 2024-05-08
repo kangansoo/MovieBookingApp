@@ -31,7 +31,7 @@ public class MainPage extends JFrame {
 		JLabel imageLabel = new JLabel(imageIcon);
 		imageLabel.setBounds(75, 30, 250, 100); // 이미지 위치와 크기 설정
 		mainPanel.add(imageLabel);
-
+		
 		// 버튼 생성
 		applyButton = new JButton("보고 싶은 영화 신청하기");
 		applyButton.setBounds(75, 150, 250, 30); // 버튼 위치와 크기 설정
