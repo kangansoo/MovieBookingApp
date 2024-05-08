@@ -30,9 +30,9 @@ public class SeatSelectionPage extends JFrame {
     static private String movieTitle;
     static private String theater;
     static private String time;
-    static private Date date;
+    static private String date;
 
-    public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, Date selectedDate) {
+    public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, String selectedDate) {
         movieTitle = selectedMovie;
         theater = selectedTheater;
         time = selectedTime;
