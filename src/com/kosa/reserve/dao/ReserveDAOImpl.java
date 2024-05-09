@@ -20,9 +20,9 @@ public class ReserveDAOImpl implements ReserveDAO {
 	}
 
 	@Override
-	public int insertReservation(int reserveQuantity, int memberNum) throws SQLException {
+	public int insertReservation(int reserveQuantity, int memberNo) throws SQLException {
 		int reserveNo = 0;
-		int memberNo = 1;
+//		int memberNo = 1;
 		// 프로시저 호출 방식 수정
 		String query = "{ call INSERT_RESERVE(?, ?, ?) }"; // OUT 매개변수 설정
 		cstmt = conn.prepareCall(query);
@@ -37,17 +37,6 @@ public class ReserveDAOImpl implements ReserveDAO {
 		cstmt.close();
 		// movieInfoMap 반환
 		return reserveNo;
-	}
-
-	public static void main(String[] args) {
-		ReserveDAOImpl test = new ReserveDAOImpl();
-		MemberVO member = new MemberVO();
-		int memberNum = member.getMemberNo();
-		try {
-			System.out.println(test.insertReservation(1, memberNum));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 
 	// 상영 DATE, TIME 상영관 이름으로 SCHEDULE_NO 가져오기
