@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +66,19 @@ public class MovieDAOImpl implements MovieDAO {
 	    }
 	    cstmt.close();
 		return screenSchedule;
+	}
+
+	@Override
+	public int selectMovieNo(String movieTitle) throws SQLException {
+		int movieNo=0;
+		String query = "{ call get_movie_no(?, ?)}";
+		cstmt = conn.prepareCall(query);
+	    cstmt.setString(1, movieTitle);
+        cstmt.registerOutParameter(2, Types.INTEGER); 
+        cstmt.execute();
+        movieNo = cstmt.getInt(2);
+        cstmt.close();
+		return movieNo;
 	}
 
 }
