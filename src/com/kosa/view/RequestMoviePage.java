@@ -15,7 +15,8 @@ public class RequestMoviePage extends JFrame {
 
 	public RequestMoviePage() {
 		setTitle("영화 신청하기");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 변경된 부분
 		setSize(400, 250);
 		setLocationRelativeTo(null);
 
