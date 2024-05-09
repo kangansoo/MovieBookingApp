@@ -167,23 +167,18 @@ public class SeatSelectionPage extends JFrame {
         reserveButton.setBounds(223, 404, 97, 23);
         mainPanel.add(reserveButton);
         
-        // 좌석 선택 페이지에 접속했을 때, selectedSeat 메서드 호출
-        try {
-            unabledSeats = controller.selectedSeat(movieTitle, date, theater, time);
-            System.out.println(unabledSeats);
-            // 가져온 좌석을 순회하며 해당 좌석을 비활성화 처리
-            for (String seat : unabledSeats) {
-                // 좌석의 문자와 숫자를 분리하여 행(row)과 열(column)로 저장
-                String[] seatInfo = seat.split(" ");
-                String row = seatInfo[0];
-                int column = Integer.parseInt(seatInfo[1]);
-                
-                // 좌석을 비활성화 처리
-                disableSeat(row, column);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        unabledSeats = controller.selectedSeat(movieTitle, date, theater, time);
+		System.out.println(unabledSeats);
+		// 가져온 좌석을 순회하며 해당 좌석을 비활성화 처리
+		for (String seat : unabledSeats) {
+		    // 좌석의 문자와 숫자를 분리하여 행(row)과 열(column)로 저장
+		    String[] seatInfo = seat.split(" ");
+		    String row = seatInfo[0];
+		    int column = Integer.parseInt(seatInfo[1]);
+		    
+		    // 좌석을 비활성화 처리
+		    disableSeat(row, column);
+		}
     }
 
     // 선택한 좌석 업데이트
