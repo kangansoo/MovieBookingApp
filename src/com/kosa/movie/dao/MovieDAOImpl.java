@@ -68,6 +68,8 @@ public class MovieDAOImpl implements MovieDAO {
 		return screenSchedule;
 	}
 
+	
+	
 	@Override
 	public int selectMovieNo(String movieTitle) throws SQLException {
 		int movieNo=0;
