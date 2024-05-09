@@ -10,7 +10,8 @@ public class ReservationConfirmationPage extends JFrame {
 
     public ReservationConfirmationPage() {
         setTitle("영화 예매 확인");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 변경된 부분
         setSize(500, 400); // 프레임 크기 고정
         setLocationRelativeTo(null);
         setResizable(false);

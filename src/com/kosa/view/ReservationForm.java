@@ -42,7 +42,8 @@ public class ReservationForm extends JFrame {
     public ReservationForm() {
         controller = new MovieControllerImpl();
         setTitle("영화 예매 페이지");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+//        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // 변경된 부분
         setSize(670, 550);
         setLocationRelativeTo(null);
 
