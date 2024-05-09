@@ -19,6 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import com.kosa.member.vo.MemberVO;
+import com.kosa.reserve.controller.ReserveController;
+import com.kosa.reserve.controller.ReserveControllerImpl;
 import com.kosa.seatselection.controller.SeatSelectionController;
 import com.kosa.seatselection.controller.SeatSelectionControllerImpl;
 
@@ -39,6 +42,9 @@ public class SeatSelectionPage extends JFrame {
     static private String date;
     private SeatSelectionController controller;
     private List<String> unabledSeats;
+    private MemberVO memberVO;
+    private int reserveNo;
+    private ReserveController reserveController;
 
     public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, String selectedDate) {
         movieTitle = selectedMovie;
@@ -46,7 +52,10 @@ public class SeatSelectionPage extends JFrame {
         time = selectedTime;
         date = selectedDate;
         controller = new SeatSelectionControllerImpl(); 
-
+        reserveController = new ReserveControllerImpl();
+        memberVO = new MemberVO();
+        memberVO.setMemberNo(1);
+        
         setTitle("좌석 선택 페이지");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(550, 500); // 가로와 세로 크기 수정
@@ -141,6 +150,13 @@ public class SeatSelectionPage extends JFrame {
                 int option = JOptionPane.showConfirmDialog(SeatSelectionPage.this, "예매하시겠습니까?", "예매 확인", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
                     // 예매하기 버튼을 눌렀을 때의 동작 구현
+                	try {
+                    	reserveNo = reserveController.getReserveNo(numOfPeople, memberVO.getMemberNo());
+                    	System.out.println(reserveNo);
+                    	System.out.println("memberNo: "+memberVO.getMemberNo());
+                    } catch(SQLException er) {
+                    	er.printStackTrace();
+                    }
                     // 예매 정보는 movieInfo 변수에 저장된 데이터를 사용할 수 있습니다.
                     ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
                     reservationCompletePage.setVisible(true);
