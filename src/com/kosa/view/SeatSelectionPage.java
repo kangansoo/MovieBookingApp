@@ -28,6 +28,7 @@ public class SeatSelectionPage extends JFrame {
     private JLabel totalSeatsLabel;
     private JLabel availableSeatsLabel;
     private JPanel seatPanel;
+    private JPanel gridPanel; // Declaring gridPanel as a field
     private ArrayList<String> selectedSeats;
     private int totalSeats;
     private int remainingSeats;
@@ -58,7 +59,7 @@ public class SeatSelectionPage extends JFrame {
         JPanel mainPanel = new JPanel();
 
         // 좌석 선택 표
-        JPanel gridPanel = new JPanel(new GridLayout(8, 8, 1, 1)); // 행과 열의 간격을 1로 설정
+        gridPanel = new JPanel(new GridLayout(8, 8, 1, 1)); // 행과 열의 간격을 1로 설정
         gridPanel.setPreferredSize(new Dimension(200, 200)); // 표 전체 크기 설정
 
         // 열 제목 추가
@@ -95,7 +96,6 @@ public class SeatSelectionPage extends JFrame {
                     }
                     updateSelectedSeatsLabel();
                     updateAvailableSeatsLabel();
-                    System.out.println(selectedSeats);
                     numOfPeople = selectedSeats.size();
                 });
                 gridPanel.add(seatCheckBox);
@@ -153,15 +153,15 @@ public class SeatSelectionPage extends JFrame {
         
         // 좌석 선택 페이지에 접속했을 때, selectedSeat 메서드 호출
         try {
-        	unabledSeats = controller.selectedSeat(movieTitle, date, theater, time);
-        	System.out.println(unabledSeats);
+            unabledSeats = controller.selectedSeat(movieTitle, date, theater, time);
+            System.out.println(unabledSeats);
             // 가져온 좌석을 순회하며 해당 좌석을 비활성화 처리
-            for (String seat : selectedSeats) {
+            for (String seat : unabledSeats) {
                 // 좌석의 문자와 숫자를 분리하여 행(row)과 열(column)로 저장
                 String[] seatInfo = seat.split(" ");
                 String row = seatInfo[0];
                 int column = Integer.parseInt(seatInfo[1]);
-
+                
                 // 좌석을 비활성화 처리
                 disableSeat(row, column);
             }
@@ -187,15 +187,20 @@ public class SeatSelectionPage extends JFrame {
 
     // 좌석을 비활성화 처리하는 메서드
     private void disableSeat(String row, int column) {
-        // 좌석의 행과 열 정보를 사용하여 해당 좌석을 비활성화 처리
-        String seatName = row + "-" + column;
-        Component[] components = seatPanel.getComponents(); // seatPanel에서 모든 컴포넌트 가져오기
+        // 그리드 패널에서 모든 컴포넌트를 가져옵니다.
+        Component[] components = gridPanel.getComponents();
         for (Component component : components) {
-            if (component instanceof JCheckBox) { // JCheckBox인 경우
+            // 해당 컴포넌트가 JCheckBox인 경우에만 처리합니다.
+            if (component instanceof JCheckBox) {
                 JCheckBox checkBox = (JCheckBox) component;
-                if (checkBox.getName().equals(seatName)) { // 좌석 이름이 일치하는 경우
-                    checkBox.setEnabled(false); // 좌석을 비활성화 처리
-                    break; // 비활성화 처리 후 종료
+                // 해당 체크박스의 이름을 가져옵니다.
+                String checkBoxName = checkBox.getName();
+                // 좌석 번호를 생성하여 비교합니다.
+                String seatNumber = row + "-"+column;
+                // 행과 열 정보가 일치하는 경우 해당 체크박스를 비활성화 처리합니다.
+                if (seatNumber.equals(checkBoxName)) {
+                    checkBox.setEnabled(false);
+                    break;
                 }
             }
         }

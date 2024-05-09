@@ -1,23 +1,52 @@
 package com.kosa.reserve.dao;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Types;
 
-import com.kosa.reserve.vo.ReserveVO;
-
-import oracle.jdbc.OracleTypes;
+import com.kosa.common.base.DBConnection;
+import com.kosa.member.vo.MemberVO;
 
 public class ReserveDAOImpl implements ReserveDAO{
-
-	@Override
-	public void saveReservation(int reserveQuantity, int memberNo) throws SQLException {
-		
+	
+	private Connection conn;
+	private CallableStatement cstmt;
+	private ResultSet rs;
+	
+	public ReserveDAOImpl() {
+		conn = DBConnection.getConnection();
 	}
-
+	
 	@Override
-	public List<ReserveVO> selectReservation(int memberNo) throws SQLException {
-		return null;
+	public int insertReservation(int reserveQuantity, int memberNum) throws SQLException {
+		int reserveNo = 0;
+		int memberNo = 1;
+	    // 프로시저 호출 방식 수정
+	    String query = "{ call INSERT_RESERVE(?, ?, ?) }"; // OUT 매개변수 설정
+	    cstmt = conn.prepareCall(query);
+	    cstmt.setInt(1, reserveQuantity);
+	    cstmt.setInt(2, memberNo);
+	    cstmt.registerOutParameter(3, Types.INTEGER);
+	    cstmt.execute(); // 프로시저 실행
+
+	    // OUT 매개변수에서 결과 가져오기
+	    reserveNo = cstmt.getInt(3);
+
+	    cstmt.close();
+	    // movieInfoMap 반환
+	    return reserveNo;
+	}
+	public static void main(String[] args) {
+		ReserveDAOImpl test = new ReserveDAOImpl();
+		MemberVO member = new MemberVO();
+		int memberNum=member.getMemberNo();
+		try {
+			System.out.println(test.insertReservation(1, memberNum));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -9,5 +9,4 @@ public class ReserveVO {
 	private int reserveCharge;
 	private int memberNo;
 	
-	
 }

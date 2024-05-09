@@ -1,13 +1,11 @@
 package com.kosa.reserve.dao;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import com.kosa.reserve.vo.ReserveVO;
+import com.kosa.member.vo.MemberVO;
 
 public interface ReserveDAO {
-	public void saveReservation(int reserveQuantity, int memberNo) throws SQLException;
+	public int insertReservation(int reserveQuantity, int memberVO) throws SQLException;
 	
-	public List<ReserveVO> selectReservation(int memberNo) throws SQLException;
 	
 }
