@@ -36,4 +36,17 @@ public class MovieControllerImpl implements MovieController {
       return screenScheduleInfo;
    }
 
+	@Override
+	public int getMovieNo(String movieTitle) {
+		int movieNo = 0;
+		MovieDAOImpl movieDAO = new MovieDAOImpl();
+		try {
+			movieNo = movieDAO.selectMovieNo(movieTitle);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return movieNo;
+	}
+
 }
