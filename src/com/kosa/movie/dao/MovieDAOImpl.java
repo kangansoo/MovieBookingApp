@@ -72,15 +72,15 @@ public class MovieDAOImpl implements MovieDAO {
 	
 	@Override
 	public int selectMovieNo(String movieTitle) throws SQLException {
-		int movieNo=0;
-		String query = "{ call ticket_logic_pkg.get_movie_no(?, ?)}";
-		cstmt = conn.prepareCall(query);
-	    cstmt.setString(1, movieTitle);
-        cstmt.registerOutParameter(2, Types.INTEGER); 
-        cstmt.execute();
-        movieNo = cstmt.getInt(2);
-        cstmt.close();
-		return movieNo;
+	    int movieNo = 0;
+	    String query = "{ ? = call ticket_logic_pkg.get_movie_no(?) }";
+	    cstmt = conn.prepareCall(query);
+	    cstmt.setString(2, movieTitle);
+	    cstmt.registerOutParameter(1, Types.INTEGER); 
+	    cstmt.execute();
+	    movieNo = cstmt.getInt(1);
+	    cstmt.close();
+	    return movieNo;
 	}
 
 }
