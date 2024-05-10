@@ -1,12 +1,34 @@
 package com.kosa.view;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+
+import com.kosa.member.controller.MemberController;
+import com.kosa.member.controller.MemberControllerImpl;
+import com.kosa.member.vo.MemberVO;
+import com.kosa.ticket.controller.TicketController;
+import com.kosa.ticket.controller.TicketControllerImpl;
 
 public class ReservationConfirmationPage extends JFrame {
     private JPanel reservationPanel;
+    private MemberVO memberVO;
+    private MemberController memberController;
+    private TicketController ticketController;
+    private List<List<String>> ticketInfoList;
 
     public ReservationConfirmationPage() {
         setTitle("영화 예매 확인");
@@ -15,6 +37,11 @@ public class ReservationConfirmationPage extends JFrame {
         setSize(500, 400); // 프레임 크기 고정
         setLocationRelativeTo(null);
         setResizable(false);
+        memberController = new MemberControllerImpl();
+        memberVO = memberController.getLoggedInMember();
+        ticketController = new TicketControllerImpl();
+        ticketInfoList = new ArrayList<>();
+        ticketInfoList = ticketController.getTicketInfo(memberVO.getMemberNo());
 
         // 예매 내역을 담을 패널 생성
         reservationPanel = new JPanel();
@@ -28,10 +55,9 @@ public class ReservationConfirmationPage extends JFrame {
         getContentPane().add(scrollPane, BorderLayout.CENTER);
 
         // 예매 내역 추가 (예시로 3개의 예매 내역을 추가)
-        addReservation("영화 제목1", "2024-04-30", "14:00", "상영관1", "A1, A2");
-        addReservation("영화 제목2", "2024-05-01", "15:30", "상영관2", "B3, B4");
-        addReservation("영화 제목3", "2024-05-02", "17:00", "상영관3", "C5, C6");
-
+        for (List<String> ticketInfo : ticketInfoList) {
+            addReservation(ticketInfo.get(0), ticketInfo.get(1), ticketInfo.get(2), ticketInfo.get(3), ticketInfo.get(4));
+        }
         // 확인 버튼 추가
         JButton confirmButton = new JButton("확인");
         confirmButton.addActionListener(new ActionListener() {
