@@ -11,4 +11,5 @@ public interface MemberController {
    int checkUserID(String id) throws SQLException;
    //회원가입
    void registerNewMember(MemberVO memberVO) throws SQLException;
+   MemberVO getLoggedInMember();
 }
