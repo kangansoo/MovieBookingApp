@@ -56,12 +56,13 @@ public class SeatSelectionPage extends JFrame {
 	private MovieController movieController;
 	private TicketController ticketController;
 	private MemberController memberController;
-	
+
 	public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, String selectedDate) {
 		movieTitle = selectedMovie;
 		theater = selectedTheater;
 		time = selectedTime;
 		date = selectedDate;
+		remainingSeats = 49;
 		// 컨트롤러 초기화
 		controller = new SeatSelectionControllerImpl();
 		reserveController = new ReserveControllerImpl();
@@ -71,7 +72,7 @@ public class SeatSelectionPage extends JFrame {
 		memberController = new MemberControllerImpl();
 		// memberVO 객체 싱글톤 인스턴스로 관리
 		memberVO = memberController.getLoggedInMember();
-
+		remainingSeats -= controller.selectedSeat(movieTitle, date, theater, time).size();
 		setTitle("좌석 선택 페이지");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(550, 500); // 가로와 세로 크기 수정
@@ -166,23 +167,22 @@ public class SeatSelectionPage extends JFrame {
 
 						reserveNo = reserveController.getReserveNo(numOfPeople, memberVO.getMemberNo()); // reserve 테이블
 						int scheduleNo = scheduleController.requestScheduleNo(selectedDate, selectedTime, // SCHEDULE_NO
-								selectedTheater); 
+								selectedTheater);
 						int movieNo = movieController.getMovieNo(movieTitle);
-						System.out.println("movieNo: "+movieNo);
-						
+						System.out.println("movieNo: " + movieNo);
+
 						for (String s : selectedSeats) {
-							HashMap<String, Integer> target = new HashMap<String, Integer>();	
+							HashMap<String, Integer> target = new HashMap<String, Integer>();
 							String row = String.valueOf(s.charAt(0));
 							int column = Integer.parseInt(String.valueOf(s.charAt(1)));
-							target.putAll(controller.chooseSeat(row, column, theater)); //seatNo, screenNo MAP으로 저장됨
+							target.putAll(controller.chooseSeat(row, column, theater)); // seatNo, screenNo MAP으로 저장됨
 							int seatNo = target.get("seatNo");
 							int screenNo = target.get("screenNo");
 							// 티켓 테이블에 데이터 저장 --
 							ticketController.addTicket(reserveNo, scheduleNo, screenNo, seatNo);
-							
+
 						}
-						
-						
+
 					} catch (SQLException er) {
 						er.printStackTrace();
 					}

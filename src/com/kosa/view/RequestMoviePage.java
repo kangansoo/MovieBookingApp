@@ -1,12 +1,18 @@
 package com.kosa.view;
 
-import com.kosa.request.controller.RequestController;
-import com.kosa.request.controller.RequestControllerImpl;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.kosa.request.controller.RequestController;
+import com.kosa.request.controller.RequestControllerImpl;
 
 public class RequestMoviePage extends JFrame {
 	private JComboBox<String> movieComboBox;
@@ -37,29 +43,7 @@ public class RequestMoviePage extends JFrame {
 		requestButton.setBounds(75, 100, 250, 30); // 버튼 위치와 크기 설정
 		mainPanel.add(requestButton);
 
-		requestButton.addActionListener(e -> {
-			try {
-				MainPage mainPage = new MainPage();
-				String selectedMovie = ((String) movieComboBox.getSelectedItem()).trim().split("\\s+")[0];
-				requestController.requestMovie(selectedMovie); // 선택한 영화의 신청 수 증가
-				System.out.println(selectedMovie);
-				int option = JOptionPane.showConfirmDialog(this, selectedMovie + "의 신청이 완료되었습니다. 메인 페이지로 이동하시겠습니까?",
-						"신청 완료", JOptionPane.YES_NO_OPTION);
-				if (option == JOptionPane.YES_OPTION) {
-					// 메인 페이지로 이동하는 코드 추가
-					dispose(); // 현재 페이지 닫기
-					// 메인 페이지로 이동하는 코드 추가
-//					mainPage.setVisible(true);
-				} else {
-					dispose(); // 현재 페이지 닫기
-					RequestMoviePage requestMoviePage = new RequestMoviePage();
-					requestMoviePage.setVisible(true);
-				}
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-				JOptionPane.showMessageDialog(this, "신청 처리 중 오류가 발생하였습니다.");
-			}
-		});
+		requestButton.addActionListener(new RequestActionListener());
 
 		// 프레임에 패널 추가
 		getContentPane().add(mainPanel);
@@ -75,10 +59,20 @@ public class RequestMoviePage extends JFrame {
 		}
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			RequestMoviePage requestMoviePage = new RequestMoviePage();
-			requestMoviePage.setVisible(true);
-		});
+	private class RequestActionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				String selectedMovie = ((String) movieComboBox.getSelectedItem()).trim().split("\\s+")[0];
+				requestController.requestMovie(selectedMovie); // 선택한 영화의 신청 수 증가
+				JOptionPane.showMessageDialog(RequestMoviePage.this, selectedMovie + "의 신청이 완료되었습니다.", "신청 완료",
+						JOptionPane.INFORMATION_MESSAGE);
+				dispose(); // 현재 페이지 닫기
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(RequestMoviePage.this, "신청 처리 중 오류가 발생하였습니다.", "오류",
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }
