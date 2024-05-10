@@ -49,7 +49,7 @@ public class RequestMoviePage extends JFrame {
 					// 메인 페이지로 이동하는 코드 추가
 					dispose(); // 현재 페이지 닫기
 					// 메인 페이지로 이동하는 코드 추가
-					mainPage.setVisible(true);
+//					mainPage.setVisible(true);
 				} else {
 					dispose(); // 현재 페이지 닫기
 					RequestMoviePage requestMoviePage = new RequestMoviePage();
