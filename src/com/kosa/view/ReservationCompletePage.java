@@ -25,7 +25,7 @@ public class ReservationCompletePage extends JFrame {
 
     public ReservationCompletePage(String movieTitle, String theater, String date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
         setTitle("예매 완료");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 300); // 프레임 크기 고정
         setResizable(false); // 크기 수정 불가능하도록 설정
         setLocationRelativeTo(null);
