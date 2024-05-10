@@ -51,7 +51,7 @@ public class SeatSelectionDAOImpl implements SeatSelectionDAO {
 	@Override
 	public HashMap<String, Integer> insertSeat(String row, int columnNum, String screenName) throws SQLException {
 		HashMap<String, Integer> resultMap = new HashMap<>();
-		String sql = "{ call INSERT_SEAT(?, ?, ?, ?, ?) }";
+		String sql = "{ call ticket_logic_pkg.INSERT_SEAT(?, ?, ?, ?, ?) }";
 		cstmt = conn.prepareCall(sql);
 		// 입력 파라미터 설정
 		cstmt.setString(1, row);
