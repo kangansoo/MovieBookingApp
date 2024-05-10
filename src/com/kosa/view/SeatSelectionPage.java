@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,6 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import com.kosa.member.controller.MemberController;
+import com.kosa.member.controller.MemberControllerImpl;
 import com.kosa.member.vo.MemberVO;
 import com.kosa.movie.controller.MovieController;
 import com.kosa.movie.controller.MovieControllerImpl;
@@ -56,6 +57,7 @@ public class SeatSelectionPage extends JFrame {
 	private ScheduleController scheduleController;
 	private MovieController movieController;
 	private TicketController ticketController;
+	private MemberController memberController;
 	
 	public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, String selectedDate) {
 		movieTitle = selectedMovie;
@@ -68,9 +70,9 @@ public class SeatSelectionPage extends JFrame {
 		scheduleController = new ScheduleControllerImpl();
 		movieController = new MovieControllerImpl();
 		ticketController = new TicketControllerImpl();
-		// 테스트용 이후 지우기
-		memberVO = new MemberVO();
-		memberVO.setMemberNo(1);
+		memberController = new MemberControllerImpl();
+		// memberVO 객체 싱글톤 인스턴스로 관리
+		memberVO = memberController.getLoggedInMember();
 
 		setTitle("좌석 선택 페이지");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
