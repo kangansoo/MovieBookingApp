@@ -24,7 +24,7 @@ public class ReserveDAOImpl implements ReserveDAO {
 		int reserveNo = 0;
 //		int memberNo = 1;
 		// 프로시저 호출 방식 수정
-		String query = "{ call INSERT_RESERVE(?, ?, ?) }"; // OUT 매개변수 설정
+		String query = "{ call ticket_logic_pkg.INSERT_RESERVE(?, ?, ?) }"; // OUT 매개변수 설정
 		cstmt = conn.prepareCall(query);
 		cstmt.setInt(1, reserveQuantity);
 		cstmt.setInt(2, memberNo);
@@ -43,7 +43,7 @@ public class ReserveDAOImpl implements ReserveDAO {
 	@Override
 	public int getScheduleNo(String scheduleDate, String scheduleTime, String screenName) throws SQLException {
 		// 프로시저 호출을 위한 CallableStatement 생성
-		String sql = "{ call Get_Schedule_No(?, ?, ?, ?) }";
+		String sql = "{ call ticket_logic_pkg.Get_Schedule_No(?, ?, ?, ?) }";
 		cstmt = conn.prepareCall(sql);
 
 		// 입력 파라미터 설정

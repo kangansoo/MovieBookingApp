@@ -37,12 +37,10 @@ import com.kosa.ticket.controller.TicketControllerImpl;
 public class SeatSelectionPage extends JFrame {
 	private JLabel selectedSeatsLabel;
 	private JLabel movieInfoLabel;
-	private JLabel totalSeatsLabel;
 	private JLabel availableSeatsLabel;
 	private JPanel seatPanel;
 	private JPanel gridPanel; // Declaring gridPanel as a field
 	private ArrayList<String> selectedSeats;
-	private int totalSeats;
 	private int remainingSeats;
 	private int numOfPeople;
 	static private String movieTitle;
@@ -80,8 +78,6 @@ public class SeatSelectionPage extends JFrame {
 		setLocationRelativeTo(null);
 
 		selectedSeats = new ArrayList<String>();
-		totalSeats = 49; // 전체 좌석 수
-		remainingSeats = totalSeats; // 잔여 좌석 수 초기화
 
 		JPanel mainPanel = new JPanel();
 
@@ -152,9 +148,6 @@ public class SeatSelectionPage extends JFrame {
 		availableSeatsLabel = new JLabel("잔여 좌석 수: " + remainingSeats);
 		availableSeatsLabel.setBounds(35, 339, 103, 15);
 		mainPanel.add(availableSeatsLabel);
-		totalSeatsLabel = new JLabel("전체 좌석 수: " + totalSeats);
-		totalSeatsLabel.setBounds(35, 324, 103, 15);
-		mainPanel.add(totalSeatsLabel);
 
 		JLabel lblNewLabel = new JLabel("좌석 선택");
 		lblNewLabel.setBounds(35, 68, 77, 15);

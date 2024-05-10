@@ -23,7 +23,7 @@ public class TicketDAOImpl implements TicketDAO {
 	
 	@Override
 	public void insertTicket(int reserveNo, int scheduleNo, int screenNo, int seatNo) throws SQLException {
-		String query = "{call insert_ticket(?, ?, ?, ?)}";
+		String query = "{call ticket_logic_pkg.insert_ticket(?, ?, ?, ?)}";
 		cstmt = conn.prepareCall(query);
 		cstmt.setInt(1, reserveNo);
 		cstmt.setInt(2, scheduleNo);

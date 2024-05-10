@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.kosa.member.controller.MemberController;
+import com.kosa.member.controller.MemberControllerImpl;
 import com.kosa.member.vo.MemberVO;
 
 public class MainPage extends JFrame {
@@ -18,6 +20,7 @@ public class MainPage extends JFrame {
 	private JButton bookButton;
 	private JButton viewButton;
 	private MemberVO memberVO;
+	private MemberController memberController;
 
 	public MainPage(MemberVO memberVO) {
 		this();
@@ -25,10 +28,9 @@ public class MainPage extends JFrame {
 	}
 
 	public MainPage() {
-		// 테스트용 코드
-		memberVO = new MemberVO();
-		memberVO.setMemberName("홍길동");
-		// 이후삭제
+		
+		memberController = new MemberControllerImpl();
+		memberVO = memberController.getLoggedInMember();
 
 		setTitle("영화 예매 시스템");
 //		setDefaultCloseOperation(EXIT_ON_CLOSE);
