@@ -70,6 +70,8 @@ public class LoginForm extends JFrame {
 
       // Set the size of the frame
       setSize(500, 400);
+      
+      setLocationRelativeTo(null);
 
    }
 
