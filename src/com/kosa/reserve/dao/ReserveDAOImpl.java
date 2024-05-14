@@ -61,4 +61,25 @@ public class ReserveDAOImpl implements ReserveDAO {
 		return cstmt.getInt(4);
 	}
 
+	@Override
+	public int selectCharge(int reserveNo, int memberNo) throws SQLException {
+		int charge = 0;
+		String sql = "{ call get_charge(?, ?, ?)}";
+		cstmt = conn.prepareCall(sql);
+
+		// 입력 파라미터 설정
+		cstmt.setInt(1, reserveNo);
+		cstmt.setInt(2, memberNo);
+
+		// 출력 파라미터 설정
+		cstmt.registerOutParameter(3, Types.INTEGER);
+
+		// 프로시저 실행
+		cstmt.execute();
+		
+		charge = cstmt.getInt(3);
+		
+		return charge;
+	}
+
 }

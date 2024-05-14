@@ -56,6 +56,7 @@ public class SeatSelectionPage extends JFrame {
 	private MovieController movieController;
 	private TicketController ticketController;
 	private MemberController memberController;
+	private int charge;
 
 	public SeatSelectionPage(String selectedMovie, String selectedTheater, String selectedTime, String selectedDate) {
 		movieTitle = selectedMovie;
@@ -73,6 +74,7 @@ public class SeatSelectionPage extends JFrame {
 		// memberVO 객체 싱글톤 인스턴스로 관리
 		memberVO = memberController.getLoggedInMember();
 		remainingSeats -= controller.selectedSeat(movieTitle, date, theater, time).size();
+		
 		setTitle("좌석 선택 페이지");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setSize(550, 500); // 가로와 세로 크기 수정
@@ -170,6 +172,7 @@ public class SeatSelectionPage extends JFrame {
 								selectedTheater);
 						int movieNo = movieController.getMovieNo(movieTitle);
 						System.out.println("movieNo: " + movieNo);
+						charge = reserveController.getCharge(reserveNo, memberVO.getMemberNo());
 
 						for (String s : selectedSeats) {
 							HashMap<String, Integer> target = new HashMap<String, Integer>();
@@ -188,7 +191,7 @@ public class SeatSelectionPage extends JFrame {
 					}
 					// 예매 정보는 movieInfo 변수에 저장된 데이터를 사용할 수 있습니다.
 					ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater,
-							date, time, numOfPeople, selectedSeats);
+							date, time, numOfPeople, selectedSeats, charge);
 					reservationCompletePage.setVisible(true);
 					dispose(); // 현재 페이지 닫기
 				}

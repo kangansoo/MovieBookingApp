@@ -22,8 +22,9 @@ public class ReservationCompletePage extends JFrame {
     static private String time;
     static private String date;
     static private ArrayList<String> selectedSeats = new ArrayList<String>();
+    private static int charge;
 
-    public ReservationCompletePage(String movieTitle, String theater, String date, String time, int numOfPeople, ArrayList<String> selectedSeats) {
+    public ReservationCompletePage(String movieTitle, String theater, String date, String time, int numOfPeople, ArrayList<String> selectedSeats, int charge) {
         setTitle("예매 완료");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 300); // 프레임 크기 고정
@@ -36,6 +37,7 @@ public class ReservationCompletePage extends JFrame {
         this.date = date;
         this.numOfPeople = numOfPeople;
         this.selectedSeats = selectedSeats;
+        this.charge = charge;
 
         // 예매 내역을 담을 패널 생성
         reservationPanel = new JPanel();
@@ -65,6 +67,7 @@ public class ReservationCompletePage extends JFrame {
         JLabel timeLabel = new JLabel("상영 시간: " + time);
         JLabel theaterLabel = new JLabel("상영관: " + theater);
         JLabel numberOfPeopleLabel = new JLabel("인원: " + numOfPeople);
+        JLabel chargeLabel = new JLabel("가격: " + charge + " 원");
         
         // 좌석 정보 추가
         StringBuilder seatsInfo = new StringBuilder("좌석: ");
@@ -84,7 +87,8 @@ public class ReservationCompletePage extends JFrame {
         reservationInfoPanel.add(theaterLabel);
         reservationInfoPanel.add(numberOfPeopleLabel);
         reservationInfoPanel.add(seatsLabel);
-
+        reservationInfoPanel.add(chargeLabel);
+ 
         // 전체 패널에 예매 내역 패널 추가
         reservationPanel.add(reservationInfoPanel);
 
@@ -95,7 +99,7 @@ public class ReservationCompletePage extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats);
+            ReservationCompletePage reservationCompletePage = new ReservationCompletePage(movieTitle, theater, date, time, numOfPeople, selectedSeats, charge);
             reservationCompletePage.setVisible(true);
         });
     }

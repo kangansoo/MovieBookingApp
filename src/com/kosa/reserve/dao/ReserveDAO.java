@@ -9,4 +9,6 @@ public interface ReserveDAO {
 
 	// 상영 DATE, TIME 상영관 이름으로 SCHEDULE_NO 가져오기
 	int getScheduleNo(String scheduleDate, String scheduleTime, String screenName) throws SQLException;
+	
+	int selectCharge(int reserveNo, int memberNo) throws SQLException;
 }
